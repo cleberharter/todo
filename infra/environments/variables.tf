@@ -5,7 +5,8 @@ variable "environment" {
 
 variable "location" {
   type    = string
-  default = "brazilsouth"
+  # brazilsouth não suporta Microsoft.Web/staticSites, por isso eastus2.
+  default = "eastus2"
 }
 
 variable "project_name" {
