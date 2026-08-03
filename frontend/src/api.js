@@ -1,4 +1,4 @@
-const API_URL = 'http://localhost:5140/api/todoitems'
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5140/api/todoitems'
 
 export async function getTodos() {
   const res = await fetch(API_URL)

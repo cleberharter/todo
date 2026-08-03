@@ -1,0 +1,13 @@
+# Recursos compartilhados pelos 3 ambientes (staging, hml, production).
+resource "azurerm_resource_group" "shared" {
+  name     = "rg-${var.project_name}-shared"
+  location = var.location
+}
+
+resource "azurerm_container_registry" "acr" {
+  name                = "acr${var.project_name}"
+  resource_group_name = azurerm_resource_group.shared.name
+  location            = azurerm_resource_group.shared.location
+  sku                 = "Basic"
+  admin_enabled       = true
+}

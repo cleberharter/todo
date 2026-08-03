@@ -30,6 +30,26 @@ O app abre em `http://localhost:5173`.
 
 > Execute o backend e o frontend em terminais separados. O frontend já está configurado (CORS e URL da API) para conversar com o backend em `http://localhost:5140`.
 
+### Docker
+
+Também é possível rodar tudo em containers, sem instalar .NET ou Node localmente.
+
+Subir os dois serviços com Docker Compose:
+```powershell
+docker compose up --build
+```
+- Backend: `http://localhost:5140` (Swagger em `http://localhost:5140/swagger`, disponível apenas em ambiente Development)
+- Frontend: `http://localhost:5173`
+
+Ou individualmente:
+```powershell
+docker build -t todo-backend ./backend/TodoApi
+docker run -p 5140:5140 todo-backend
+
+docker build -t todo-frontend ./frontend
+docker run -p 5173:80 todo-frontend
+```
+
 ## Endpoints da API
 
 | Método | Rota                     | Descrição            |
@@ -43,3 +63,20 @@ O app abre em `http://localhost:5173`.
 ## Observação
 
 Os dados ficam apenas em memória: reiniciar o backend reseta a lista de tarefas para os dois itens de exemplo.
+
+## CI/CD
+
+O projeto usa GitHub Actions com 3 ambientes no Azure (App Service + Static Web Apps, provisionados via Terraform):
+
+| Branch        | Ambiente   |
+|---------------|------------|
+| `feature/**`  | staging    |
+| `staging`     | hml        |
+| `main`        | production |
+
+- `.github/workflows/ci.yml` — build + testes em todo Pull Request.
+- `.github/workflows/deploy-staging.yml`, `deploy-hml.yml`, `deploy-production.yml` — deploy automático por branch.
+- `.github/workflows/infra.yml` — provisionamento manual da infraestrutura (Terraform, pasta `infra/`).
+
+Detalhes completos do plano em [plans/ci-cd-github-actions-azure.md](plans/ci-cd-github-actions-azure.md).
+Pendências manuais de configuração (Azure/GitHub) em [docs/pendencias-manuais.md](docs/pendencias-manuais.md).
