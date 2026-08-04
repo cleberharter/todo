@@ -40,6 +40,6 @@ jobs:
               --repo "${{ github.repository }}" \
               --base hml \
               --head staging \
-              --title "Promote staging to hml" \
+              --title "Send code from staging to hml" \
               --body "PR automático gerado após merge em staging."
           fi
