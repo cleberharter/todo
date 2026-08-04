@@ -5,6 +5,7 @@ variable "environment" {
 
 variable "location" {
   type    = string
+  # brazilsouth não suporta Microsoft.Web/staticSites, por isso eastus2.
   default = "eastus2"
 }
 
@@ -21,6 +22,11 @@ variable "image_tag" {
 variable "app_service_sku" {
   type    = string
   default = "B1"
+}
+
+variable "app_service_worker_count" {
+  type    = number
+  default = 1
 }
 
 variable "static_web_app_sku_tier" {
