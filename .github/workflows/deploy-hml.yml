@@ -40,6 +40,6 @@ jobs:
               --repo "${{ github.repository }}" \
               --base main \
               --head hml \
-              --title "Promote hml to main" \
+              --title "Send code from hml to main" \
               --body "PR automático gerado após merge em hml."
           fi
