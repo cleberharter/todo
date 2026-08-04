@@ -49,6 +49,7 @@ jobs:
       - name: Build
         run: npm run build
   deploy:
+    needs: [backend, frontend]
     uses: ./.github/workflows/deploy.yml
     with:
       environment: staging
