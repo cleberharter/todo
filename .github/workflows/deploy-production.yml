@@ -1,11 +1,13 @@
 name: Deploy Production
 
 on:
-  push:
+  pull_request:
+    types: [closed]
     branches: [main]
 
 jobs:
   deploy:
+    if: github.event.pull_request.merged == true
     uses: ./.github/workflows/deploy.yml
     with:
       environment: production
