@@ -1,6 +1,8 @@
 name: Deploy Hml
 
 on:
+  push:
+    branches: [hml]
   pull_request:
     types: [closed]
     branches: [hml]
@@ -11,7 +13,7 @@ permissions:
 
 jobs:
   deploy:
-    if: github.event.pull_request.merged == true
+    if: github.event_name == 'push'
     uses: ./.github/workflows/deploy.yml
     with:
       environment: hml
@@ -26,7 +28,7 @@ jobs:
       AZURE_STATIC_WEB_APPS_API_TOKEN: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
 
   create-pr:
-    if: github.event.pull_request.merged == true
+    if: github.event_name == 'pull_request' && github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     steps:
       - name: Create pull request to main
