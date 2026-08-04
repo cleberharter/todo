@@ -1,6 +1,7 @@
 variable "location" {
   type        = string
   description = "Azure region for the shared resources"
+  # brazilsouth não suporta Microsoft.Web/staticSites, por isso eastus2.
   default     = "eastus2"
 }
 

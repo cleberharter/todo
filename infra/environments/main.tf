@@ -10,6 +10,7 @@ resource "azurerm_service_plan" "backend" {
   location            = azurerm_resource_group.env.location
   os_type             = "Linux"
   sku_name            = var.app_service_sku
+  worker_count        = var.app_service_worker_count
 }
 
 resource "azurerm_linux_web_app" "backend" {
@@ -20,17 +21,16 @@ resource "azurerm_linux_web_app" "backend" {
 
   site_config {
     application_stack {
-      docker_image_name   = "todo-backend:${var.image_tag}"
-      docker_registry_url = "https://${data.terraform_remote_state.shared.outputs.acr_login_server}"
+      docker_image_name        = "todo-backend:${var.image_tag}"
+      docker_registry_url      = "https://${data.terraform_remote_state.shared.outputs.acr_login_server}"
+      docker_registry_username = data.terraform_remote_state.shared.outputs.acr_admin_username
+      docker_registry_password = data.terraform_remote_state.shared.outputs.acr_admin_password
     }
   }
 
   app_settings = {
-    ASPNETCORE_ENVIRONMENT          = var.environment
-    DOCKER_REGISTRY_SERVER_URL      = "https://${data.terraform_remote_state.shared.outputs.acr_login_server}"
-    DOCKER_REGISTRY_SERVER_USERNAME = data.terraform_remote_state.shared.outputs.acr_admin_username
-    DOCKER_REGISTRY_SERVER_PASSWORD = data.terraform_remote_state.shared.outputs.acr_admin_password
-    WEBSITES_PORT                   = "5140"
+    ASPNETCORE_ENVIRONMENT = var.environment
+    WEBSITES_PORT          = "5140"
   }
 }
 
