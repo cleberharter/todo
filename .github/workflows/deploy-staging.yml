@@ -1,11 +1,13 @@
 name: Deploy Staging
 
 on:
-  push:
+  pull_request:
+    types: [closed]
     branches: ['feature/**']
 
 jobs:
   deploy:
+    if: github.event.pull_request.merged == true
     uses: ./.github/workflows/deploy.yml
     with:
       environment: staging
