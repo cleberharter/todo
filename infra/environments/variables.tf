@@ -5,7 +5,7 @@ variable "environment" {
 
 variable "location" {
   type    = string
-  default = "brazilsouth"
+  default = "eastus2"
 }
 
 variable "project_name" {

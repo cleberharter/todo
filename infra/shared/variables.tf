@@ -1,7 +1,7 @@
 variable "location" {
   type        = string
   description = "Azure region for the shared resources"
-  default     = "brazilsouth"
+  default     = "eastus2"
 }
 
 variable "project_name" {
