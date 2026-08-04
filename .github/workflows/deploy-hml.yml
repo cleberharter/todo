@@ -1,8 +1,6 @@
 name: Deploy Hml
 
 on:
-  push:
-    branches: [hml]
   pull_request:
     types: [closed]
     branches: [hml]
@@ -13,7 +11,7 @@ permissions:
 
 jobs:
   deploy:
-    if: github.event_name == 'push'
+    if: github.event.pull_request.merged == true
     uses: ./.github/workflows/deploy.yml
     with:
       environment: hml
