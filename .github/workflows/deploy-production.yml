@@ -1,8 +1,7 @@
 name: Deploy Production
 
 on:
-  pull_request:
-    types: [closed]
+  push:
     branches: [main]
 
 jobs:
@@ -46,7 +45,6 @@ jobs:
       - name: Build
         run: npm run build
   deploy:
-    if: github.event.pull_request.merged == true
     uses: ./.github/workflows/deploy.yml
     with:
       environment: production
