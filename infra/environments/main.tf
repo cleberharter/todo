@@ -10,6 +10,7 @@ resource "azurerm_service_plan" "backend" {
   location            = azurerm_resource_group.env.location
   os_type             = "Linux"
   sku_name            = var.app_service_sku
+  worker_count        = var.app_service_worker_count
 }
 
 resource "azurerm_linux_web_app" "backend" {
