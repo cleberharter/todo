@@ -68,14 +68,14 @@ Os dados ficam apenas em memória: reiniciar o backend reseta a lista de tarefas
 
 O projeto usa GitHub Actions com 3 ambientes no Azure (App Service + Static Web Apps, provisionados via Terraform):
 
-| Branch        | Ambiente   |
-|---------------|------------|
-| `feature/**`  | staging    |
-| `staging`     | hml        |
-| `main`        | production |
+| Push na branch | Ambiente   |
+|-----------------|------------|
+| `staging`       | staging    |
+| `hml`           | hml        |
+| `main`          | production |
 
-- `.github/workflows/ci.yml` — build + testes em todo Pull Request.
-- `.github/workflows/deploy-staging.yml`, `deploy-hml.yml`, `deploy-production.yml` — deploy automático por branch.
+- `.github/workflows/deploy-staging.yml`, `deploy-hml.yml`, `deploy-production.yml` — disparados por `push` na branch correspondente (ou seja, todo merge de PR nessa branch). Cada um builda e testa backend/frontend (jobs `backend`/`frontend`) e só depois dispara o deploy (job `deploy`, que depende dos dois anteriores via `needs`); ao final, abre automaticamente o PR para a próxima branch do fluxo (`create-pr`).
+- `.github/workflows/deploy.yml` — workflow reutilizável (`workflow_call`) que efetivamente builda a imagem Docker do backend, publica no ACR, faz deploy no App Service e publica o frontend no Static Web App do ambiente.
 - `.github/workflows/infra.yml` — provisionamento manual da infraestrutura (Terraform, pasta `infra/`).
 
 Detalhes completos do plano em [plans/ci-cd-github-actions-azure.md](plans/ci-cd-github-actions-azure.md).
